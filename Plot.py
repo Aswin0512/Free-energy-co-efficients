@@ -3,5 +3,9 @@ import matplotlib.pyplot as plt
 import math as ma
 
 
-kx=np.linspace(-np.pi,np.pi,1000)
-ky=np.linspace(-np.pi,np.pi,1000)
+Kx=np.linspace(-np.pi,np.pi,1000)
+Ky=np.linspace(-np.pi,np.pi,1000)
+Kz=np.linspace(-np.pi,np.pi,1000)
+
+E=(Kx**2+Ky**2+Kz**2)/2
+
