@@ -8,24 +8,12 @@ x=np.linspace(-np.pi,np.pi,10)
 y=np.linspace(-np.pi,np.pi,10)
 z=np.linspace(-np.pi,np.pi,10)
 #creating a 3d mesh
-kx,ky=np.meshgrid(x,y)
+kx,ky,kz=np.meshgrid(x,y,z)
 
-kxm=np.ones((10,10,10))
-kym=np.ones((10,10,10))
-kzm=np.ones((10,10,10))
+E=(kx**2+ky**2+kz**2)/2
 
-for i in range(10):
-    kxm[i,:,:]=kx
-    kym[i,:,:]=ky
-
-    kzz=z[i]*np.ones((10,10))
-    kzm[i,:,:]=kzz
-
-
-E=(Kx**2+Ky**2+Kz**2)/2
-
-fig=plt.figure(1)
+fig=plt.figure()
 ax=fig.add_subplot(projection='3d')
-Energy=ax.scatter(Kx,Ky,Kz,c=E,cmap="viridis")
-plt.colorbar(Energy)
+Energy=ax.scatter3D(kx,ky,kz)
+#plt.colorbar(Energy)
 plt.show()
