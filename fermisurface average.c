@@ -3,15 +3,21 @@
 
 //To calculate the fermi surface average of different functions
 
-// functon inside integral
-float fun(float kx,float ky){
-    float f=1/(pow(2*3.1415,2)*sqrt(kx*kx+ky*ky));
-    return f;
+// Dispersion relation
+float Energy(float kx,float ky){
+    float E=(kx*kx+ky*ky)/2;
+    return E;
+}
+//Magnitude of the gradient of Energy
+float MdelEnergy(float kx,float ky){
+    float MdelE=sqrt(kx*kx+ky*ky);
+    return MdelE;
 }
 
 //function to find the points on a fermi curve
-float surface(float x[],float y[],){
-    
+float surface(float Ev,float Etol,int n){
+    float kstep=Etol/sqrt(2*Ev);
+    float thetastep=
 }
 
 
