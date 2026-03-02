@@ -5,7 +5,7 @@
 
 // functon inside integral
 float fun(float kx,float ky){
-    float f=1/(sqrt(kx*kx+ky*ky));
+    float f=1/(pow(2*3.1415,2)*sqrt(kx*kx+ky*ky));
     return f;
 }
 
