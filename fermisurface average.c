@@ -165,7 +165,15 @@ int main(){
     surface(Ev,Etol,n,surfdata);
 
     FILE *fptr;
-    fptr=fopen()
+    fptr=fopen("spherical1.txt","w");
+
+    for (size_t i = 0; i < 8*n; i++)
+    {
+        fprintf(fptr,"%f\t%f\n",surfdata[i][0],surfdata[i][1]);
+    }
+    
+    fclose(fptr);
+    
 
 
 }
