@@ -5,7 +5,14 @@
 
 //integral of sinx
 int main(){
+    /*
     float pi=PI;
     pi=abs(pi);
-    printf("%f\n",pi);
+    float a[2][2]={{PI,2},{1,1}};
+    printf("%f\t%f\n",a[0][0],a[1][0]);
+    */
+    
+    float a,b=5;
+    printf("%f",b);
+
 }
