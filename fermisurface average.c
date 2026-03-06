@@ -167,12 +167,33 @@ int main(){
     FILE *fptr;
     fptr=fopen("spherical1.txt","w");
 
-    for (size_t i = 0; i < 8*n; i++)
+    for (int i = 0; i < 8*n; i++)
     {
         fprintf(fptr,"%f\t%f\n",surfdata[i][0],surfdata[i][1]);
     }
     
     fclose(fptr);
+
+    //Integral over the energy surface
+    float integralval=0;
+    float h=0;
+    float kx1,kx2;
+    float ky1,ky2;
+    for (int i = 0; i < 8*n; i++)
+    {   
+        if (i!=8*n)
+        {
+            kx1,ky1=surfdata[i][0],surfdata[i][1];
+            kx2,ky2=surfdata[i+1][0],surfdata[i+1][1];
+            h=sqrt((kx1-kx2)*(kx1-kx2)+(ky1-ky2)*(ky1-ky2));
+            integralval=integralval+(1/MdelEnergy(kx1,ky1)+1/MdelEnergy(kx2,ky2))/(2*pow(2*PI,3));
+
+        }
+        
+        
+
+    }
+    
     
 
 
