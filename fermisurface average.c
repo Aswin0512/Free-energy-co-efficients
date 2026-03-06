@@ -155,7 +155,7 @@ float surface(float Ev,float Etol,int n,float surpnts[8*n][2]){
 }
 
 
-int main(){
+int main(int argc,char *argv[]){
 
     int n=100;
     float surfdata[8*n][2];
@@ -164,8 +164,11 @@ int main(){
 
     surface(Ev,Etol,n,surfdata);
 
+    char filename[25];
+    sprintf(filename,"spherical_%.2f_%d.txt",Ev,n);
+
     FILE *fptr;
-    fptr=fopen("spherical1.txt","w");
+    fptr=fopen(filename,"w");
 
     for (int i = 0; i < 8*n; i++)
     {
@@ -177,24 +180,23 @@ int main(){
     //Integral over the energy surface
     float integralval=0;
     float h=0;
+    int i1;
     float kx1,kx2;
     float ky1,ky2;
     for (int i = 0; i < 8*n; i++)
     {   
-        if (i!=8*n)
-        {
-            kx1,ky1=surfdata[i][0],surfdata[i][1];
-            kx2,ky2=surfdata[i+1][0],surfdata[i+1][1];
-            h=sqrt((kx1-kx2)*(kx1-kx2)+(ky1-ky2)*(ky1-ky2));
-            integralval=integralval+(1/MdelEnergy(kx1,ky1)+1/MdelEnergy(kx2,ky2))/(2*pow(2*PI,3));
+        i1=i+1-(i+1)*floor(i+1/(8*n));
 
-        }
-        
-        
+        kx1,ky1=surfdata[i][0],surfdata[i][1];
+        kx2,ky2=surfdata[i1][0],surfdata[i1][1];
+        h=sqrt((kx1-kx2)*(kx1-kx2)+(ky1-ky2)*(ky1-ky2));
+        integralval=integralval+(1/MdelEnergy(kx1,ky1)+1/MdelEnergy(kx2,ky2))*h/2;
 
     }
     
+    integralval=integralval/pow(2*PI,3);
+    printf("value of the integral:\t%.4f\n",integralval);
     
 
-
+    return 0;
 }
