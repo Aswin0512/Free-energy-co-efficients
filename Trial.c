@@ -20,7 +20,7 @@ int main(int argc,char *argv[]){
     int n=8;
     i1=i1-i1*floor(i1/n);
     printf("%d\n",i1);
-    */
+    
     if (argc<2)
     {
         printf("ERROR:Input the value of energy\n");
@@ -28,5 +28,5 @@ int main(int argc,char *argv[]){
     }
     printf("SUCCESS\t%s\n",argv[1]);
     return 0;
-
+    */
 }

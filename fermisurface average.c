@@ -10,15 +10,16 @@ float Energy(float kx,float ky){
     float E=(kx*kx+ky*ky)/2;
     return E;
 }
-//Magnitude of the gradient of Energy
-float MdelEnergy(float kx,float ky){
-    float MdelE=sqrt(kx*kx+ky*ky);
-    return MdelE;
+//function inside the integral
+float fintegral(float kx,float ky){
+    float f=ky*ky/(kx*kx+ky*ky);
+    return f;
 }
 
 //function to find the points on a fermi curve
 float surface(float Ev,float Etol,int n,float surpnts[8*n][2]){
-    float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
+    //float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
+    float kstep=0.001;
     float thetastep=PI/(4*n); // value with which theta is incremented
 
     //Initialising different variables
@@ -65,13 +66,22 @@ float surface(float Ev,float Etol,int n,float surpnts[8*n][2]){
                 surpnts[i][0]=kx;
                 surpnts[i][1]=ky;
                 tolflag=1;
-
+                if (Etolc>Etol)
+                {
+                    printf("Calculated tolerance is greater\n");
+                    return 1;
+                }
             }
             else
             {
                 surpnts[i][0]=kxp;
                 surpnts[i][1]=kyp;
                 tolflag=1;
+                if (Etolc>Etol)
+                {
+                    printf("Calculated tolerance is greater\n");
+                    return 1;
+                }
             }
             
         }
@@ -159,7 +169,7 @@ int main(int argc,char *argv[]){
 
     int n=100;
     float surfdata[8*n][2];
-    float Ev=3;
+    float Ev=0.5;
     float Etol=0.01;
 
     surface(Ev,Etol,n,surfdata);
@@ -185,18 +195,18 @@ int main(int argc,char *argv[]){
     float ky1,ky2;
     for (int i = 0; i < 8*n; i++)
     {   
-        i1=i+1-(i+1)*floor(i+1/(8*n));
+        i1=i+1-(i+1)*floor((i+1)/(8*n));
 
-        kx1,ky1=surfdata[i][0],surfdata[i][1];
-        kx2,ky2=surfdata[i1][0],surfdata[i1][1];
-        h=sqrt((kx1-kx2)*(kx1-kx2)+(ky1-ky2)*(ky1-ky2));
-        integralval=integralval+(1/MdelEnergy(kx1,ky1)+1/MdelEnergy(kx2,ky2))*h/2;
+        kx1=surfdata[i][0];
+        ky1=surfdata[i][1];
+        kx2=surfdata[i1][0];
+        ky2=surfdata[i1][1];
+        h=sqrt(pow(kx2-kx1,2)+pow(ky2-ky1,2));
+        integralval=integralval+(fintegral(kx1,ky1)+fintegral(kx2,ky2))*h/2;
 
     }
-    
-    integralval=integralval/pow(2*PI,3);
+
     printf("value of the integral:\t%.4f\n",integralval);
-    
 
     return 0;
 }
