@@ -18,8 +18,8 @@ float fintegral(float kx,float ky){
 
 //function to find the points on a fermi curve
 float surface(float Ev,float Etol,int n,float surpnts[8*n][2]){
-    //float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
-    float kstep=0.001;
+    float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
+    //float kstep=0.001;
     float thetastep=PI/(4*n); // value with which theta is incremented
 
     //Initialising different variables
@@ -77,7 +77,7 @@ float surface(float Ev,float Etol,int n,float surpnts[8*n][2]){
                 surpnts[i][0]=kxp;
                 surpnts[i][1]=kyp;
                 tolflag=1;
-                if (Etolc>Etol)
+                if (Etolcp>Etol)
                 {
                     printf("Calculated tolerance is greater\n");
                     return 1;
