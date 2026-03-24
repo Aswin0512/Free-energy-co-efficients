@@ -1,11 +1,9 @@
 #include<iostream>
+#include<string>
 #include<cmath>
 
 using namespace std;
 
-//To calculate the fermi surface average of different functions
-
-// Dispersion relation
 float Energy(float kx,float ky){
     float E=-(cos(kx)+cos(ky));
     return E;
@@ -17,10 +15,10 @@ float fintegral(float kx,float ky){
 }
 
 //function to find the points on a fermi curve
-float surface(float Ev,float Etol,int n,float surpnts[8*n][2]){
+float surface(float Ev,float Etol,int n,float *surpnts){
     float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
     //float kstep=0.001;
-    float thetastep=PI/(4*n); // value with which theta is incremented
+    float thetastep=M_PI/(4*n); // value with which theta is incremented
 
     //Initialising different variables
     float E=0; // E-Energy
@@ -164,7 +162,18 @@ float surface(float Ev,float Etol,int n,float surpnts[8*n][2]){
     
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f6eb6daacc2ee799522623a9091e566a6e360478
 int main(){
-    cout << "hello world\t"<< 10 <<"\ttimes\n";
+    float kx,ky,E;
+    cout << "Enter kx,ky\n";
+    cin >> kx;
+    cin >> ky;
+
+    E=Energy(kx,ky);
+    cout << E<<"\n";
     return 0;
+
 }
