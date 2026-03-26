@@ -15,7 +15,7 @@ float fintegral(float kx,float ky){
 }
 
 //function to find the points on a fermi curve
-float surface(float Ev,float Etol,int n,float *surpnts){
+float* surface(float Ev,float Etol,int n){
     float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
     //float kstep=0.001;
     float thetastep=M_PI/(4*n); // value with which theta is incremented
@@ -31,10 +31,11 @@ float surface(float Ev,float Etol,int n,float *surpnts){
     float kxp,kyp=0;
     int tolflag=0; // varialble to flag when we reach minimum error
     
-    
+    float **surpnts= new float*[8*n];// Initialising the 2D array to store the points on Fermi surface
     
     for (int i = 0; i < n+1; i++)
     {
+
         theta=i*thetastep;
         cs=cos(theta);
         sn=sin(theta);
@@ -67,7 +68,7 @@ float surface(float Ev,float Etol,int n,float *surpnts){
                 if (Etolc>Etol)
                 {
                     printf("Calculated tolerance is greater\n");
-                    return 1;
+                    return nullptr;
                 }
             }
             else
@@ -78,7 +79,7 @@ float surface(float Ev,float Etol,int n,float *surpnts){
                 if (Etolcp>Etol)
                 {
                     printf("Calculated tolerance is greater\n");
-                    return 1;
+                    return nullptr;
                 }
             }
             
@@ -162,10 +163,6 @@ float surface(float Ev,float Etol,int n,float *surpnts){
     
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f6eb6daacc2ee799522623a9091e566a6e360478
 int main(){
     float kx,ky,E;
     cout << "Enter kx,ky\n";
