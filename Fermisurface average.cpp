@@ -15,7 +15,8 @@ float fintegral(float kx,float ky){
 }
 
 //function to find the points on a fermi curve
-float* surface(float Ev,float Etol,int n){
+float *surface(float Ev,float Etol,int n){
+
     float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
     //float kstep=0.001;
     float thetastep=M_PI/(4*n); // value with which theta is incremented
@@ -35,6 +36,15 @@ float* surface(float Ev,float Etol,int n){
     
     for (int i = 0; i < n+1; i++)
     {
+        surpnts[i]=new float[2];
+        if (i!=n)
+        {
+            for (int j = 1; j < 9 ; j++)
+            {
+                surpnts[j*n+1]=new float[2];
+            }
+            
+        }
 
         theta=i*thetastep;
         cs=cos(theta);
