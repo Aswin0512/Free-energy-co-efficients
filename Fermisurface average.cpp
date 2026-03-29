@@ -10,12 +10,12 @@ float Energy(float kx,float ky){
 }
 //function inside the integral
 float fintegral(float kx,float ky){
-    float f=ky*ky/(kx*kx+ky*ky);
+    float f=pow(kx*kx-ky*ky,2);
     return f;
 }
 
 //function to find the points on a fermi curve
-float *surface(float Ev,float Etol,int n){
+float **surface(float Ev,float Etol,int n){
 
     float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
     //float kstep=0.001;
@@ -33,25 +33,21 @@ float *surface(float Ev,float Etol,int n){
     int tolflag=0; // varialble to flag when we reach minimum error
     
     float **surpnts= new float*[8*n];// Initialising the 2D array to store the points on Fermi surface
+
+    float kx1,kx2,kx3,kx4,kx5,kx6,kx7,kx8=0;
+    float ky1,ky2,ky3,ky4,ky5,ky6,ky7,ky8=0;
+    int i2,i3,i4,i5,i6,i7,i8=0;
     
     for (int i = 0; i < n+1; i++)
     {
-        surpnts[i]=new float[2];
-        if (i!=n)
-        {
-            for (int j = 1; j < 9 ; j++)
-            {
-                surpnts[j*n+1]=new float[2];
-            }
-            
-        }
+        surpnts[i]=new float[2];//Creating the columns for kx and ky
 
         theta=i*thetastep;
         cs=cos(theta);
         sn=sin(theta);
         k=0;
         tolflag=0;
-        Etolcp=fabs(Ev)+1;
+        Etolcp=fabs(Ev-Energy(0,0))+10000;//Tolerance varibale is initiated
         kxp,kyp=0;
     
         while (tolflag==0)
@@ -61,17 +57,17 @@ float *surface(float Ev,float Etol,int n){
             E=Energy(kx,ky);
             Etolc=fabs(E-Ev);
 
-            if (Etolcp-Etolc>0)
+            if (Etolcp>Etolc)
             {
                 k=k+kstep;
                 Etolcp=Etolc;
                 kxp=kx;
                 kyp=ky;
             }
-            else if (Etolcp-Etolc==0)
+            else if (Etolcp==Etolc)
             {
-                kx=kx-(kstep/2)*cs;
-                ky=ky-(kstep/2)*sn;
+                kx=(kx+kxp)/2;
+                ky=(ky+kyp)/2;
                 surpnts[i][0]=kx;
                 surpnts[i][1]=ky;
                 tolflag=1;
@@ -94,15 +90,8 @@ float *surface(float Ev,float Etol,int n){
             }
             
         }
-    }
 
-    float kx1,kx2,kx3,kx4,kx5,kx6,kx7,kx8=0;
-    float ky1,ky2,ky3,ky4,ky5,ky6,ky7,ky8=0;
-    int i2,i3,i4,i5,i6,i7,i8=0;
-
-    // Using symmetries to find points on the rest of the fermi surace
-    for (int i = 0; i < n+1; i++)
-    {
+        // Using symmetries to find points on the rest of the fermi surace
         kx1=surpnts[i][0];
         ky1=surpnts[i][1];
         //Reflection about 45 degree line
@@ -110,6 +99,8 @@ float *surface(float Ev,float Etol,int n){
         ky2=kx1;
             
         i2=2*n-i;
+
+        surpnts[i2]=new float[2];
 
         surpnts[i2][0]=kx2;
         surpnts[i2][1]=ky2;
@@ -120,6 +111,7 @@ float *surface(float Ev,float Etol,int n){
         ky3=ky2;
 
         i3=4*n-i2;
+        surpnts[i3]=new float[2];
 
         surpnts[i3][0]=kx3;
         surpnts[i3][1]=ky3;
@@ -128,6 +120,7 @@ float *surface(float Ev,float Etol,int n){
         ky4=ky1;
 
         i4=4*n-i;
+        surpnts[i4]=new float[2];
 
         surpnts[i4][0]=kx4;
         surpnts[i4][1]=ky4;
@@ -137,6 +130,7 @@ float *surface(float Ev,float Etol,int n){
         ky5=-ky4;
 
         i5=8*n-i4;
+        surpnts[i5]=new float[2];
 
         surpnts[i5][0]=kx5;
         surpnts[i5][1]=ky5;
@@ -145,6 +139,7 @@ float *surface(float Ev,float Etol,int n){
         ky6=-ky3;
 
         i6=8*n-i3;
+        surpnts[i6]=new float[2];
 
         surpnts[i6][0]=kx6;
         surpnts[i6][1]=ky6;
@@ -153,6 +148,7 @@ float *surface(float Ev,float Etol,int n){
         ky7=-ky2;
 
         i7=8*n-i2;
+        surpnts[i7]=new float[2];
 
         surpnts[i7][0]=kx7;
         surpnts[i7][1]=ky7;
@@ -163,24 +159,18 @@ float *surface(float Ev,float Etol,int n){
            ky8=-ky1;
            
            i8=8*n-i;
+           surpnts[i8]=new float[2];
            
            surpnts[i8][0]=kx8;
            surpnts[i8][1]=ky8;
 
         }
            
-    }   
+    }
     
+    return surpnts;
 }
 
 int main(){
-    float kx,ky,E;
-    cout << "Enter kx,ky\n";
-    cin >> kx;
-    cin >> ky;
-
-    E=Energy(kx,ky);
-    cout << E<<"\n";
-    return 0;
-
+    
 }
