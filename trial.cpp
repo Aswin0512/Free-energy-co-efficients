@@ -15,9 +15,26 @@ float *ar(int n){
 }
 int main(){
     int n=4;
+
+    for (int i = 1; i < 4; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            if (i==4)
+            {
+                break;
+            }
+            cout << j <<"\n";
+        }
+        
+    }
+    
+
+    /*
     float *data;
     data=ar(n);
     delete[] data;
     data=nullptr;
     cout << data[3] <<"\n";
+    */
 }

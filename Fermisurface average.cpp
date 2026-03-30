@@ -48,6 +48,11 @@ float* surface(float Ev,float Etol,int n){
         {   
             kx=k*cs;
             ky=k*sn;
+            if (fabs(kx)>M_PI || fabs(ky)>M_PI)
+            {
+                break;
+            }
+            
             E=Energy(kx,ky);
             Etolc=fabs(E-Ev);
 
