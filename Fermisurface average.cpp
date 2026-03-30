@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<cmath>
+#include<fstream>
 
 using namespace std;
 
@@ -176,5 +177,28 @@ float **surface(float Ev,float Etol,int n){
 }
 
 int main(){
+    int n=100;
+    float Etol=0.01;
+    float Eval=1;
+
+    float **surfdata;
+
+    surfdata=surface(Eval,Etol,n);
+
+    char filename[25];
+    sprintf(filename,"square_%.2f_%d.txt",Eval,n);
+
+    ofstream data(filename);
+
+    for (int i = 0; i < 8*n; i++)
+    {
+        data << surfdata[i][0] << "\t" << surfdata[i][1]<<"\n";
+    }
+
+    data.close();
+
+    return 0;
+
+    
     
 }
