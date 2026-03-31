@@ -32,6 +32,8 @@ float **surface(float Ev,float Etol,int n){
     float kx,ky=0;// x and y components respectively
     float kxp,kyp=0;
     int tolflag=0; // varialble to flag when we reach minimum error
+    int clcnt=0;//count the number of theta steps until first point is found
+    int indx=0;//crct indx of the point
     
     float **surpnts= new float*[8*n];// Initialising the 2D array to store the points on Fermi surface
 
@@ -57,6 +59,7 @@ float **surface(float Ev,float Etol,int n){
             ky=k*sn;
             if (fabs(kx)>M_PI || fabs(ky)>M_PI)
             {
+                clcnt++;
                 break;
             }
             E=Energy(kx,ky);

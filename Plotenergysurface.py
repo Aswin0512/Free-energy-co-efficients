@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-surfpnts=np.loadtxt("/home/aswin/Aswin/PhD/Code/Free-energy co-efficients/square_1.00_100.txt",delimiter="\t",dtype=float)
+surfpnts=np.loadtxt("square_1.00_100.txt",delimiter="\t",dtype=float)
 
 plt.figure(figsize=(7,7))
 xpoints=surfpnts[:,0]
