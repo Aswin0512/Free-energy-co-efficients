@@ -65,7 +65,7 @@ float **surface(float Ev,float Etol,int n){
             E=Energy(kx,ky);
             Etolc=fabs(E-Ev);
 
-            if (Etolcp>Etolc)
+            if (Etolc>Etol)
             {
                 k=k+kstep;
                 Etolcp=Etolc;
