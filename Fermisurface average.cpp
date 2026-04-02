@@ -68,6 +68,18 @@ float **surface(float Ev,float Etol,int n){
             if (Etolc>Etol)
             {
                 k=k+kstep;
+            }
+            else{
+                k=k+kstep;
+                Etolcp=Etolc;
+                kxp=kx;
+                kyp=ky;
+            }
+            
+
+            if (Etolc>Etol)
+            {
+                k=k+kstep;
                 Etolcp=Etolc;
                 kxp=kx;
                 kyp=ky;
