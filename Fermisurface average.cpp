@@ -49,67 +49,72 @@ float **surface(float Ev,float Etol,int n){
         cs=cos(theta);
         sn=sin(theta);
         k=0;
+
         tolflag=0;
-        Etolcp=fabs(Ev-Energy(0,0))+10000;//Tolerance varibale is initiated
+        Etolc=fabs(Ev-Energy(0,0));//Tolerance varibale is initiated
+        
         kxp,kyp=0;
     
+        
         while (tolflag==0)
         {   
-            kx=k*cs;
-            ky=k*sn;
-            if (fabs(kx)>M_PI || fabs(ky)>M_PI)
-            {
-                clcnt++;
-                break;
-            }
-            E=Energy(kx,ky);
-            Etolc=fabs(E-Ev);
 
             if (Etolc>Etol)
             {
                 k=k+kstep;
-            }
-            else{
-                k=k+kstep;
-                Etolcp=Etolc;
-                kxp=kx;
-                kyp=ky;
-            }
-            
-
-            if (Etolc>Etol)
-            {
-                k=k+kstep;
-                Etolcp=Etolc;
-                kxp=kx;
-                kyp=ky;
-            }
-            else if (Etolcp==Etolc)
-            {
-                kx=(kx+kxp)/2;
-                ky=(ky+kyp)/2;
-                surpnts[i][0]=kx;
-                surpnts[i][1]=ky;
-                tolflag=1;
-                if (Etolc>Etol)
+                kx=k*cs;
+                ky=k*sn;
+                if (fabs(kx)>M_PI || fabs(ky)>M_PI)
                 {
-                    printf("Calculated tolerance is greater\n");
-                    return nullptr;
+                    clcnt++;
+                    break;
                 }
+                E=Energy(kx,ky);
+                Etolc=fabs(E-Ev);
             }
             else
             {
-                surpnts[i][0]=kxp;
-                surpnts[i][1]=kyp;
-                tolflag=1;
-                if (Etolcp>Etol)
+                here:
+                Etolcp=Etolc;
+                kxp=kx;
+                kyp=ky;
+
+                k=k+kstep;
+                kx=k*cs;
+                ky=k*sn;
+
+                if (fabs(kx)>M_PI || fabs(ky)>M_PI)//Brillouin zone conditon
                 {
-                    printf("Calculated tolerance is greater\n");
-                    return nullptr;
+                    kx=kxp;
+                    ky=kyp;
+                    //save points and break
+
+                    break;
                 }
+
+                E=Energy(kx,ky);
+                Etolc=fabs(E-Ev);
+
+                if(Etolc==Etolcp)
+                {
+                    kx=(kx+kxp)/2;
+                    ky=(ky+kyp)/2;
+                    //save points
+                }
+                else if (Etolc>Etolcp)
+                {
+                    kx=kxp;
+                    ky=kyp;
+                    //save points
+                }
+                else
+                {
+                    goto here;
+                }
+                
             }
             
-        }
+        } 
 
         // Using symmetries to find points on the rest of the fermi surace
         kx1=surpnts[i][0];
