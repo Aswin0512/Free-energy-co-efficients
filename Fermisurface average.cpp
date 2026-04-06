@@ -32,18 +32,18 @@ float **surface(float Ev,float Etol,int n){
     float kx,ky=0;// x and y components respectively
     float kxp,kyp=0;
     int tolflag=0; // varialble to flag when we reach minimum error
-    int clcnt=0;//count the number of theta steps until first point is found
-    int indx=0;//crct indx of the point
+    int crvno=1;//count the different curves
     
     float **surpnts= new float*[8*n];// Initialising the 2D array to store the points on Fermi surface
 
     float kx1,kx2,kx3,kx4,kx5,kx6,kx7,kx8=0;
     float ky1,ky2,ky3,ky4,ky5,ky6,ky7,ky8=0;
     int i2,i3,i4,i5,i6,i7,i8=0;
+    int crvno1,crvno2,crvno3,crvno4,crvno5,crvno6,crvno7,crvno8;
     
     for (int i = 0; i < n+1; i++)
     {
-        surpnts[i]=new float[2];//Creating the columns for kx and ky
+        surpnts[i]=new float[3]{};//Creating the columns for kx,ky and the curve number
 
         theta=i*thetastep;
         cs=cos(theta);
@@ -64,9 +64,8 @@ float **surface(float Ev,float Etol,int n){
                 k=k+kstep;
                 kx=k*cs;
                 ky=k*sn;
-                if (fabs(kx)>M_PI || fabs(ky)>M_PI)
-                {
-                    clcnt++;
+                if (fabs(kx)>M_PI || fabs(ky)>M_PI)//Brillouin zone condition
+                {   
                     break;
                 }
                 E=Energy(kx,ky);
@@ -83,12 +82,18 @@ float **surface(float Ev,float Etol,int n){
                 kx=k*cs;
                 ky=k*sn;
 
+                if (i!=0 && surpnts[i-1][2]==0)
+                    {
+                        crvno++;
+                    }
+
                 if (fabs(kx)>M_PI || fabs(ky)>M_PI)//Brillouin zone conditon
                 {
                     kx=kxp;
                     ky=kyp;
-                    //save points and break
-
+                    surpnts[i][0]=kx;
+                    surpnts[i][1]=ky;
+                    surpnts[i][2]=crvno;
                     break;
                 }
 
@@ -99,13 +104,19 @@ float **surface(float Ev,float Etol,int n){
                 {
                     kx=(kx+kxp)/2;
                     ky=(ky+kyp)/2;
-                    //save points
+                    surpnts[i][0]=kx;
+                    surpnts[i][1]=ky;
+                    surpnts[i][2]=crvno;
+                    
                 }
                 else if (Etolc>Etolcp)
                 {
                     kx=kxp;
                     ky=kyp;
-                    //save points
+                    surpnts[i][0]=kx;
+                    surpnts[i][1]=ky;
+                    surpnts[i][2]=crvno;
+                    
                 }
                 else
                 {
@@ -115,17 +126,24 @@ float **surface(float Ev,float Etol,int n){
             }
             
         } 
+           
+    }
 
+    //Symmetry operations
+    for (int i = 0; i < n+1; i++)
+    {
         // Using symmetries to find points on the rest of the fermi surace
         kx1=surpnts[i][0];
         ky1=surpnts[i][1];
+        crvno1=surpnts[i][2];
+        
         //Reflection about 45 degree line
         kx2=ky1;
         ky2=kx1;
             
         i2=2*n-i;
 
-        surpnts[i2]=new float[2];
+        surpnts[i2]=new float[3];
 
         surpnts[i2][0]=kx2;
         surpnts[i2][1]=ky2;
@@ -136,7 +154,7 @@ float **surface(float Ev,float Etol,int n){
         ky3=ky2;
 
         i3=4*n-i2;
-        surpnts[i3]=new float[2];
+        surpnts[i3]=new float[3];
 
         surpnts[i3][0]=kx3;
         surpnts[i3][1]=ky3;
@@ -145,7 +163,7 @@ float **surface(float Ev,float Etol,int n){
         ky4=ky1;
 
         i4=4*n-i;
-        surpnts[i4]=new float[2];
+        surpnts[i4]=new float[3];
 
         surpnts[i4][0]=kx4;
         surpnts[i4][1]=ky4;
@@ -155,7 +173,7 @@ float **surface(float Ev,float Etol,int n){
         ky5=-ky4;
 
         i5=8*n-i4;
-        surpnts[i5]=new float[2];
+        surpnts[i5]=new float[3];
 
         surpnts[i5][0]=kx5;
         surpnts[i5][1]=ky5;
@@ -164,7 +182,7 @@ float **surface(float Ev,float Etol,int n){
         ky6=-ky3;
 
         i6=8*n-i3;
-        surpnts[i6]=new float[2];
+        surpnts[i6]=new float[3];
 
         surpnts[i6][0]=kx6;
         surpnts[i6][1]=ky6;
@@ -173,7 +191,7 @@ float **surface(float Ev,float Etol,int n){
         ky7=-ky2;
 
         i7=8*n-i2;
-        surpnts[i7]=new float[2];
+        surpnts[i7]=new float[3];
 
         surpnts[i7][0]=kx7;
         surpnts[i7][1]=ky7;
@@ -184,14 +202,14 @@ float **surface(float Ev,float Etol,int n){
            ky8=-ky1;
            
            i8=8*n-i;
-           surpnts[i8]=new float[2];
+           surpnts[i8]=new float[3];
            
            surpnts[i8][0]=kx8;
            surpnts[i8][1]=ky8;
 
         }
-           
     }
+    
     
     return surpnts;
 }
