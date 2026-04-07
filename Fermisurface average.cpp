@@ -51,8 +51,7 @@ float **surface(float Ev,float Etol,int n){
         k=0;
 
         tolflag=0;
-        Etolc=fabs(Ev-Energy(0,0));//Tolerance varibale is initiated
-        
+        Etolcp=fabs(Ev-Energy(0,0))+10000;//Tolerance variable is initiated
         kxp,kyp=0;
     
         
