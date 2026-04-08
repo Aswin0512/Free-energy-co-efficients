@@ -32,7 +32,7 @@ float **surface(float Ev,float Etol,int n){
     float kx,ky=0;// x and y components respectively
     float kxp,kyp=0;
     int tolflag=0; // varialble to flag when we reach minimum error
-    int crvno=1;//count the different curves
+    int crvno=0;//count the different curves
     
     float **surpnts= new float*[8*n];// Initialising the 2D array to store the points on Fermi surface
 
@@ -48,15 +48,22 @@ float **surface(float Ev,float Etol,int n){
         theta=i*thetastep;
         cs=cos(theta);
         sn=sin(theta);
-        k=0;
+        if (i==0)
+        {
+            k=0;
+        }
+        else
+        {
+            k=kstep;
+        }
 
+        kx=k*cs;
+        ky=k*sn;
         tolflag=0;
-        Etolcp=fabs(Ev-Energy(0,0))+10000;//Tolerance variable is initiated
-        kxp,kyp=0;
+        Etolc=fabs(Energy(kx,ky)-Ev);
     
-        
         while (tolflag==0)
-        {   
+        { 
 
             if (Etolc>Etol)
             {
@@ -72,6 +79,15 @@ float **surface(float Ev,float Etol,int n){
             }
             else
             {
+                if (i==0)
+                {
+                    crvno++;
+                }
+                else if (i!=0 && surpnts[i-1][2]==0)
+                {
+                    crvno++;
+                }
+
                 here:
                 Etolcp=Etolc;
                 kxp=kx;
@@ -80,11 +96,6 @@ float **surface(float Ev,float Etol,int n){
                 k=k+kstep;
                 kx=k*cs;
                 ky=k*sn;
-
-                if (i!=0 && surpnts[i-1][2]==0)
-                    {
-                        crvno++;
-                    }
 
                 if (fabs(kx)>M_PI || fabs(ky)>M_PI)//Brillouin zone conditon
                 {
@@ -141,11 +152,19 @@ float **surface(float Ev,float Etol,int n){
         ky2=kx1;
             
         i2=2*n-i;
+        if (surpnts[n][2]==0)
+        {
+            crvno2=2*crvno-crvno1+1;
+        }
+        else{
+            crvno2=2*crvno-crvno1;
+        }
 
         surpnts[i2]=new float[3];
 
         surpnts[i2][0]=kx2;
         surpnts[i2][1]=ky2;
+        surpnts[i2][3]=crvno2;
 
             
         //Reflection about y axis
@@ -153,10 +172,38 @@ float **surface(float Ev,float Etol,int n){
         ky3=ky2;
 
         i3=4*n-i2;
+        if (surpnts[0][2]==0)
+        {
+            if (surpnts[n][2]==0)
+            {
+                crvno3=4*crvno-crvno2+1;
+                crvno4=4*crvno-crvno1+1;
+            }
+            else
+            {
+                crvno3=4*crvno-crvno2-1; 
+                crvno4=4*crvno-crvno1-1;   
+            } 
+        }
+        else
+        {
+            if (surpnts[n][2]==0)
+            {
+                crvno3=4*crvno-crvno2;
+                crvno4=4*crvno-crvno1;
+            }
+            else
+            {
+                crvno3=4*crvno-crvno2-2;  
+                crvno4=4*crvno-crvno1-2; 
+            }
+        }
+
         surpnts[i3]=new float[3];
 
         surpnts[i3][0]=kx3;
         surpnts[i3][1]=ky3;
+        surpnts[13][2]=crvno3;
 
         kx4=-kx1;
         ky4=ky1;
