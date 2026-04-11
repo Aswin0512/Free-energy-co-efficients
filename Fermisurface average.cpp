@@ -142,6 +142,19 @@ float **surface(float Ev,float Etol,int n){
     //Symmetry operations
     for (int i = 0; i < n+1; i++)
     {
+        //crction to curve number
+        int crcst=0;
+        int crcend=0; // correction if the curves are connected between quarters at the start and end
+
+        if (surpnts[0][2]!=0)
+        {
+            crcst=1;
+        }
+        if (surpnts[n][2]!=0)
+        {
+            crcend=1;
+        }
+
         // Using symmetries to find points on the rest of the fermi surace
         kx1=surpnts[i][0];
         ky1=surpnts[i][1];
@@ -152,13 +165,7 @@ float **surface(float Ev,float Etol,int n){
         ky2=kx1;
             
         i2=2*n-i;
-        if (surpnts[n][2]==0)
-        {
-            crvno2=2*crvno-crvno1+1;
-        }
-        else{
-            crvno2=2*crvno-crvno1;
-        }
+        crvno2=2*crvno-crvno1-crcend+1;
 
         surpnts[i2]=new float[3];
 
@@ -166,38 +173,12 @@ float **surface(float Ev,float Etol,int n){
         surpnts[i2][1]=ky2;
         surpnts[i2][3]=crvno2;
 
-            
         //Reflection about y axis
         kx3=-kx2;
         ky3=ky2;
 
         i3=4*n-i2;
-        if (surpnts[0][2]==0)
-        {
-            if (surpnts[n][2]==0)
-            {
-                crvno3=4*crvno-crvno2+1;
-                crvno4=4*crvno-crvno1+1;
-            }
-            else
-            {
-                crvno3=4*crvno-crvno2-1; 
-                crvno4=4*crvno-crvno1-1;   
-            } 
-        }
-        else
-        {
-            if (surpnts[n][2]==0)
-            {
-                crvno3=4*crvno-crvno2;
-                crvno4=4*crvno-crvno1;
-            }
-            else
-            {
-                crvno3=4*crvno-crvno2-2;  
-                crvno4=4*crvno-crvno1-2; 
-            }
-        }
+        crvno3=4*crvno-crvno2-2*crcend-crcst+1;
 
         surpnts[i3]=new float[3];
 
@@ -209,10 +190,12 @@ float **surface(float Ev,float Etol,int n){
         ky4=ky1;
 
         i4=4*n-i;
+        crvno4=4*crvno-crvno1-2*crcend-crcst+1;
         surpnts[i4]=new float[3];
 
         surpnts[i4][0]=kx4;
         surpnts[i4][1]=ky4;
+        surpnts[i4][2]=crvno4;
 
         //Reflection about x axis
         kx5=kx4;
