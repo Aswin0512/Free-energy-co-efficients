@@ -202,10 +202,12 @@ float **surface(float Ev,float Etol,int n){
         ky5=-ky4;
 
         i5=8*n-i4;
+        crvno5=8*crvno-crvno4-4*crcend-3*crcst+1;
         surpnts[i5]=new float[3];
 
         surpnts[i5][0]=kx5;
         surpnts[i5][1]=ky5;
+        surpnts[i5][2]=crvno5;
 
         kx6=kx3;
         ky6=-ky3;
