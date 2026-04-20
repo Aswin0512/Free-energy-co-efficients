@@ -267,7 +267,7 @@ int main(){
 
     for (int i = 0; i < 8*n; i++)
     {
-        data << surfdata[i][0] << "\t" << surfdata[i][1]<<"\n";
+        data << surfdata[i][0] << "\t" << surfdata[i][1]<< "\t"<< surfdata[i][2]<< "\n";
     }
 
     data.close();
