@@ -213,19 +213,23 @@ float **surface(float Ev,float Etol,int n){
         ky6=-ky3;
 
         i6=8*n-i3;
+        crvno6=8*crvno-crvno3-4*crcend-3*crcst+1;
         surpnts[i6]=new float[3];
 
         surpnts[i6][0]=kx6;
         surpnts[i6][1]=ky6;
+        surpnts[i6][2]=crvno6;
 
         kx7=kx2;
         ky7=-ky2;
 
         i7=8*n-i2;
+        crvno7=8*crvno-crvno2-4*crcend-3*crcst+1;
         surpnts[i7]=new float[3];
 
         surpnts[i7][0]=kx7;
         surpnts[i7][1]=ky7;
+        surpnts[i7][2]=crvno7;
 
         if (i!=0)
         {
@@ -233,10 +237,12 @@ float **surface(float Ev,float Etol,int n){
            ky8=-ky1;
            
            i8=8*n-i;
+           crvno8=(1-crcst)*(crvno-crvno1-4*crcend-3*crcst+1)+crcst*((1-floor(1/crvno1))*(crvno-crvno1-4*crcend-3*crcst)+1);
            surpnts[i8]=new float[3];
            
            surpnts[i8][0]=kx8;
            surpnts[i8][1]=ky8;
+           surpnts[i8][2]=crvno8;
 
         }
     }
@@ -267,7 +273,5 @@ int main(){
     data.close();
 
     return 0;
-
-    
     
 }
