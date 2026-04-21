@@ -138,11 +138,8 @@ float **surface(float Ev,float Etol,int n){
         } 
            
     }
-    cout << crvno;
-    //Symmetry operations
-    for (int i = 0; i < n+1; i++)
-    {
-        //crction to curve number
+
+    //correction to curve number
         int crcst=0;
         int crcend=0; // correction if the curves are connected between quarters at the start and end
 
@@ -155,6 +152,12 @@ float **surface(float Ev,float Etol,int n){
             crcend=1;
         }
 
+        cout << crcst << "\t" << crcend <<"\n";
+    
+    //Symmetry operations
+    for (int i = 0; i < n+1; i++)
+    {
+        
         // Using symmetries to find points on the rest of the fermi surace
         kx1=surpnts[i][0];
         ky1=surpnts[i][1];
@@ -169,11 +172,12 @@ float **surface(float Ev,float Etol,int n){
             crvno5=8*crvno-crvno4-4*crcend-3*crcst+1;
             crvno6=8*crvno-crvno3-4*crcend-3*crcst+1;
             crvno7=8*crvno-crvno2-4*crcend-3*crcst+1;
-            crvno8=(1-crcst)*(crvno-crvno1-4*crcend-3*crcst+1)+crcst*((1-floor(1/crvno1))*(crvno-crvno1-4*crcend-3*crcst)+1);
+            crvno8=(1-crcst)*(8*crvno-crvno1-4*crcend-3*crcst+1)+crcst*((1-floor(1/crvno1))*(crvno-crvno1-4*crcend-3*crcst)+1);
 
         }
         else{
             crvno2=0;
+            crvno3=0;
             crvno4=0;
             crvno5=0;
             crvno6=0;
@@ -192,7 +196,7 @@ float **surface(float Ev,float Etol,int n){
 
         surpnts[i2][0]=kx2;
         surpnts[i2][1]=ky2;
-        surpnts[i2][3]=crvno2;
+        surpnts[i2][2]=crvno2;
 
         //Reflection about y axis
         kx3=-kx2;
@@ -204,7 +208,7 @@ float **surface(float Ev,float Etol,int n){
 
         surpnts[i3][0]=kx3;
         surpnts[i3][1]=ky3;
-        surpnts[13][2]=crvno3;
+        surpnts[i3][2]=crvno3;
 
         kx4=-kx1;
         ky4=ky1;
