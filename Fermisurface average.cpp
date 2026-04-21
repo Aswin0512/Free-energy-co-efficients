@@ -44,7 +44,7 @@ float **surface(float Ev,float Etol,int n){
     for (int i = 0; i < n+1; i++)
     {
         surpnts[i]=new float[3]();//Creating the columns initialised with zeroes for kx,ky and the curve number
-
+        
         theta=i*thetastep;
         cs=cos(theta);
         sn=sin(theta);
