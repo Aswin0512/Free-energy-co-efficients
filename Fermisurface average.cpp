@@ -43,7 +43,7 @@ float **surface(float Ev,float Etol,int n){
     
     for (int i = 0; i < n+1; i++)
     {
-        surpnts[i]=new float[3]{};//Creating the columns for kx,ky and the curve number
+        surpnts[i]=new float[3]();//Creating the columns initialised with zeroes for kx,ky and the curve number
 
         theta=i*thetastep;
         cs=cos(theta);
@@ -138,7 +138,7 @@ float **surface(float Ev,float Etol,int n){
         } 
            
     }
-
+    cout << crvno;
     //Symmetry operations
     for (int i = 0; i < n+1; i++)
     {
@@ -159,15 +159,36 @@ float **surface(float Ev,float Etol,int n){
         kx1=surpnts[i][0];
         ky1=surpnts[i][1];
         crvno1=surpnts[i][2];
+
+        //Numbering curves
+        if (crvno1!=0)
+        {
+            crvno2=2*crvno-crvno1-crcend+1;
+            crvno3=4*crvno-crvno2-2*crcend-crcst+1;
+            crvno4=4*crvno-crvno1-2*crcend-crcst+1;
+            crvno5=8*crvno-crvno4-4*crcend-3*crcst+1;
+            crvno6=8*crvno-crvno3-4*crcend-3*crcst+1;
+            crvno7=8*crvno-crvno2-4*crcend-3*crcst+1;
+            crvno8=(1-crcst)*(crvno-crvno1-4*crcend-3*crcst+1)+crcst*((1-floor(1/crvno1))*(crvno-crvno1-4*crcend-3*crcst)+1);
+
+        }
+        else{
+            crvno2=0;
+            crvno4=0;
+            crvno5=0;
+            crvno6=0;
+            crvno7=0;
+            crvno8=0;
+        }
         
+
         //Reflection about 45 degree line
         kx2=ky1;
         ky2=kx1;
             
         i2=2*n-i;
-        crvno2=2*crvno-crvno1-crcend+1;
 
-        surpnts[i2]=new float[3];
+        surpnts[i2]=new float[3]();
 
         surpnts[i2][0]=kx2;
         surpnts[i2][1]=ky2;
@@ -178,9 +199,8 @@ float **surface(float Ev,float Etol,int n){
         ky3=ky2;
 
         i3=4*n-i2;
-        crvno3=4*crvno-crvno2-2*crcend-crcst+1;
 
-        surpnts[i3]=new float[3];
+        surpnts[i3]=new float[3]();
 
         surpnts[i3][0]=kx3;
         surpnts[i3][1]=ky3;
@@ -190,8 +210,7 @@ float **surface(float Ev,float Etol,int n){
         ky4=ky1;
 
         i4=4*n-i;
-        crvno4=4*crvno-crvno1-2*crcend-crcst+1;
-        surpnts[i4]=new float[3];
+        surpnts[i4]=new float[3]();
 
         surpnts[i4][0]=kx4;
         surpnts[i4][1]=ky4;
@@ -202,8 +221,7 @@ float **surface(float Ev,float Etol,int n){
         ky5=-ky4;
 
         i5=8*n-i4;
-        crvno5=8*crvno-crvno4-4*crcend-3*crcst+1;
-        surpnts[i5]=new float[3];
+        surpnts[i5]=new float[3]();
 
         surpnts[i5][0]=kx5;
         surpnts[i5][1]=ky5;
@@ -213,8 +231,7 @@ float **surface(float Ev,float Etol,int n){
         ky6=-ky3;
 
         i6=8*n-i3;
-        crvno6=8*crvno-crvno3-4*crcend-3*crcst+1;
-        surpnts[i6]=new float[3];
+        surpnts[i6]=new float[3]();
 
         surpnts[i6][0]=kx6;
         surpnts[i6][1]=ky6;
@@ -224,8 +241,7 @@ float **surface(float Ev,float Etol,int n){
         ky7=-ky2;
 
         i7=8*n-i2;
-        crvno7=8*crvno-crvno2-4*crcend-3*crcst+1;
-        surpnts[i7]=new float[3];
+        surpnts[i7]=new float[3]();
 
         surpnts[i7][0]=kx7;
         surpnts[i7][1]=ky7;
@@ -237,8 +253,7 @@ float **surface(float Ev,float Etol,int n){
            ky8=-ky1;
            
            i8=8*n-i;
-           crvno8=(1-crcst)*(crvno-crvno1-4*crcend-3*crcst+1)+crcst*((1-floor(1/crvno1))*(crvno-crvno1-4*crcend-3*crcst)+1);
-           surpnts[i8]=new float[3];
+           surpnts[i8]=new float[3]();
            
            surpnts[i8][0]=kx8;
            surpnts[i8][1]=ky8;

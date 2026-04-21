@@ -10,5 +10,5 @@ ypoints=surfpnts[:,1]
 plt.plot(xpoints,ypoints,marker="o",markersize=1,linestyle="none")
 plt.xlabel("Kx")
 plt.ylabel("ky")
-plt.savefig("square.png")
+#plt.savefig("square.png")
 plt.show()
