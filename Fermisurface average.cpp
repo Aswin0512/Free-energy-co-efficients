@@ -18,8 +18,8 @@ float fintegral(float kx,float ky){
 //function to find the points on a fermi curve
 float **surface(float Ev,float Etol,int n){
 
-    float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
-    //float kstep=0.001;
+    //float kstep=Etol/sqrt(2*Ev); // value with which k is incremented
+    float kstep=0.001;
     float thetastep=M_PI/(4*n); // value with which theta is incremented
 
     //Initialising different variables
@@ -140,20 +140,17 @@ float **surface(float Ev,float Etol,int n){
     }
 
     //correction to curve number
-        int crcst=0;
-        int crcend=0; // correction if the curves are connected between quarters at the start and end
+    int crcst=0;
+    int crcend=0; // correction if the curves are connected between quarters at the start and end
+    if (surpnts[0][2]!=0)
+    {
+        crcst=1;
+    }
+    if (surpnts[n][2]!=0)
+    {
+        crcend=1;
+    }
 
-        if (surpnts[0][2]!=0)
-        {
-            crcst=1;
-        }
-        if (surpnts[n][2]!=0)
-        {
-            crcend=1;
-        }
-
-        cout << crcst << "\t" << crcend <<"\n";
-    
     //Symmetry operations
     for (int i = 0; i < n+1; i++)
     {
@@ -273,7 +270,7 @@ float **surface(float Ev,float Etol,int n){
 int main(){
     int n=100;
     float Etol=0.01;
-    float Eval=1;
+    float Eval=0.0;
 
     float **surfdata;
 
